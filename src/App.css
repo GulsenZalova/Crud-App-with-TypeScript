@@ -4,9 +4,111 @@ table{
 }
 th{
   font-size: 20px;
+  color: midnightblue;
   text-align: center;
+  padding: 10px;
+  border: 2px solid midnightblue;
 }
 
 td{
     font-size: 15px;
+    padding: 10px;
+    align-items: center;
+    text-align: center;
+    border: 2px solid midnightblue;
+}
+
+.crudContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+form{
+  width: 50%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 2px solid midnightblue;
+  border-radius: 10px;
+}
+form div{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+label{
+  font-size: 20px;
+  color: midnightblue;
+}
+input{
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid midnightblue;
+}
+
+.addbtn{
+  background-color: midnightblue;
+  border: 2px solid transparent;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+  font-size:20px;
+  transition: all ease .3s;
+}
+.addbtn:hover{
+  background-color: white;
+  color: midnightblue;
+  border-color: midnightblue;
+}
+
+.deletebtn{
+  background-color: darkred;
+  border: 1px solid transparent;
+  padding: 15px 30px;
+  color: white;
+  border-radius: 10px;
+  transition: all ease .3s;
+}
+.deletebtn:hover{
+  background-color: white;
+  border-color:  darkred;
+  color: darkred;
+}
+
+.updatebtn{
+  background-color: midnightblue;
+  border: 1px solid transparent;
+  padding: 15px 30px;
+  color: white;
+  border-radius: 10px;
+  transition: all ease .3s;
+}
+
+.updatebtn:hover{
+  background-color: white;
+  border-color:  midnightblue;
+  color: midnightblue;
+}
+
+.modal{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal div{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal input{
+  font-size: 15px;
+  color: midnightblue;
+}
+
+.text{
+  font-size: 20px;
+  color: midnightblue;
 }

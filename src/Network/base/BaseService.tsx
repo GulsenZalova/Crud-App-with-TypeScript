@@ -84,4 +84,29 @@ export class BaseService <T>{
         }
 
     }
+    async update(data: T,url: string = this.endpointUrl): Promise<ResponseModel> {
+
+        try {
+            let apiResponse = await NorthwindApiInstance.put(url,data);
+
+            let response: ResponseModel = {
+                data: apiResponse.data,
+                status: true,
+                statusCode: apiResponse.status,
+                errorMessage: ''
+            }
+            return response;
+
+        } catch (error :any) {
+            let response: ResponseModel = {
+                data: {},
+                status: false,
+                statusCode: error.response.status,
+                errorMessage: error.message
+            }
+
+            return response;
+        }
+
+    }
 }
