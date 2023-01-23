@@ -6,8 +6,8 @@ import LoginForm from './Components/LoginForm';
 import './App.css'
 import { Link,Routes,Route } from "react-router-dom";
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [localSituation,setLocalSituation]=useState(false)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [localSituation,setLocalSituation]=useState<boolean>(false)
  useEffect(()=>{
   if(localStorage.getItem("loginInfos")===null){
     setLocalSituation(false)

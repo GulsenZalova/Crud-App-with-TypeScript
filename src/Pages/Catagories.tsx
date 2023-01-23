@@ -6,19 +6,19 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function Catagories({localSituation}) {
   const [catagories,setCatacories]=useState<CatagoriesModel[]>([])
-  const [newCatagories,setNewCatagories]=useState({
+  const [newCatagories,setNewCatagories]=useState<CatagoriesModel>({
     name:"",
     description:"",
 })
-const [isModalOpen, setIsModalOpen] = useState(false);
-const [updatedcategories,setupdatedCategories]=useState(
+const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+const [updatedcategories,setupdatedCategories]=useState<CatagoriesModel>(
   {
-    id:null,
+    id:undefined,
     name: "",
     description: "",
   }
 )
-  const handleChange=(e:SyntheticEvent)=>{
+  const handleChange=(e:any)=>{
    const name=e.target.name
    const value=e.target.value
 
@@ -92,7 +92,7 @@ const [updatedcategories,setupdatedCategories]=useState(
   }
   }
 
-  const handleUpdate = (item: SyntheticEvent) => {
+  const handleUpdate = (item:any) => {
     setIsModalOpen(true);
     setupdatedCategories({
       id:item.id,
@@ -137,7 +137,7 @@ const [updatedcategories,setupdatedCategories]=useState(
         <tbody>
               {
                 catagories && (
-                catagories.map((x)=>(
+                catagories.map((x:any)=>(
                        <tr key={x.id}>
                         <td>{x.id}</td>
                         <td>{x.name}</td>

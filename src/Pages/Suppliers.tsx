@@ -6,8 +6,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function Suppliers({localSituation}) {
   const [suppliers, setSuppliers] = useState<SuppliersModel[]>([])
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [updatedsuppliers,setUpdatedSuppliers]=useState(
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [updatedsuppliers,setUpdatedSuppliers]=useState<SuppliersModel>(
     {
       id:null,
       companyName: "",
@@ -49,7 +49,7 @@ function Suppliers({localSituation}) {
     setIsModalOpen(false);
   };
 
-  const handleChange = (e: SyntheticEvent) => {
+  const handleChange = (e:any) => {
     const name = e.target.name
     const value = e.target.value
 
@@ -97,7 +97,7 @@ function Suppliers({localSituation}) {
     }
   }
 
-  const handleUpdate = (item: SyntheticEvent) => {
+  const handleUpdate = (item:any) => {
     setIsModalOpen(true);
     setUpdatedSuppliers({
       id:item.id,
@@ -149,7 +149,7 @@ function Suppliers({localSituation}) {
         <tbody>
           {
             suppliers && (
-              suppliers.map((x) => (
+              suppliers.map((x:any) => (
                 <tr key={x.id}>
                   <td>{x.id}</td>
                   <td>{x.companyName}</td>

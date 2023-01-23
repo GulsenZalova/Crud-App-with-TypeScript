@@ -6,8 +6,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function Products({localSituation}) {
   const [products,setProducts]=useState<ProductsModel[]>([])
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newProducts,setNewProducts]=useState({
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [newProducts,setNewProducts]=useState<ProductsModel>({
     name:"",
     unitPrice:null,
     unitsInStock:null
@@ -37,7 +37,7 @@ const handleOk = () => {
   }
 };
 
-  const handleChange=(e:SyntheticEvent)=>{
+  const handleChange=(e:any)=>{
    const name=e.target.name
    const value=e.target.value
 
@@ -94,7 +94,7 @@ const handleCancel = () => {
     }
 
   }
-  const handleUpdate = (item: SyntheticEvent) => {
+  const handleUpdate = (item:any) => {
     setIsModalOpen(true);
     setUpdatedproducts({
       id:item.id,
@@ -145,7 +145,7 @@ const handleCancel = () => {
         <tbody>
               {
                 products && (
-                products.map((x,i)=>(
+                products.map((x:any,i:number)=>(
                        <tr key={i}>
                         <td>{x.id}</td>
                         <td>{x.name}</td>
