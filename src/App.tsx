@@ -3,6 +3,10 @@ import Catagories from './Pages/Catagories'
 import Suppliers from './Pages/Suppliers'
 import Products from './Pages/Products'
 import LoginForm from './Components/LoginForm';
+import AdminPanel from './Pages/AdminPanel';
+interface Local{
+  localSituation:boolean
+}
 import './App.css'
 import { Link,Routes,Route } from "react-router-dom";
 function App() {
@@ -31,7 +35,8 @@ function App() {
              <ul>
               <li><Link className='link' to={"/"}>Suppliers</Link></li>
               <li><Link className='link' to={"/products"}>Products</Link></li>
-              <li><Link className='link' to={"/catagories"}>Catagories</Link></li>
+              <li><Link className='link' to={"/catagories"}>Categories</Link></li>
+              <li><Link className='link' to={"/admin"}>Admin</Link></li>
               {
                 localSituation==true ? (
                <>
@@ -41,6 +46,7 @@ function App() {
                   <li><button className='login-logout' onClick={showModal}>Login</button></li>
                 )
               }
+              
              </ul>
           </nav>
       </header>
@@ -50,6 +56,8 @@ function App() {
         <Route path='/' element={<Suppliers localSituation={localSituation}/>}></Route>
         <Route path='/products' element={<Products localSituation={localSituation}/>}></Route>
         <Route path='/catagories' element={<Catagories localSituation={localSituation}/>}></Route>
+        <Route path='/catagories' element={<Catagories localSituation={localSituation}/>}></Route>
+        <Route path='/admin' element={<AdminPanel/>}></Route>
       </Routes>
      }
     </>
