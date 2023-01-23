@@ -4,7 +4,10 @@ import { CatagoriesService } from '../Network/catagories/CatagoriesService'
 import { Button, Modal } from 'antd';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-function Catagories({localSituation}) {
+interface Local{
+  localSituation:boolean
+}
+function Catagories({localSituation}:Local) {
   const [catagories,setCatacories]=useState<CatagoriesModel[]>([])
   const [newCatagories,setNewCatagories]=useState<CatagoriesModel>({
     name:"",

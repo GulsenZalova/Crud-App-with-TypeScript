@@ -4,12 +4,15 @@ import { SuppliersService } from '../Network/suppliers/SuppliresService'
 import { Button, Modal } from 'antd';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-function Suppliers({localSituation}) {
+interface Local{
+  localSituation:boolean
+}
+function Suppliers({localSituation}:Local) {
   const [suppliers, setSuppliers] = useState<SuppliersModel[]>([])
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [updatedsuppliers,setUpdatedSuppliers]=useState<SuppliersModel>(
     {
-      id:null,
+      id:undefined,
       companyName: "",
       contactName: "",
       contactTitle: ""

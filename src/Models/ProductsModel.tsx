@@ -3,6 +3,6 @@ import { BaseModel } from "./core/BaseModel";
 
 export interface ProductsModel extends BaseModel{
     name:string,
-    unitPrice:number,
-    unitsInStock:number
+    unitPrice:undefined,
+    unitsInStock:undefined
 }

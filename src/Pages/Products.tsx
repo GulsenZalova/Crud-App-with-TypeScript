@@ -4,20 +4,23 @@ import { ProductsService } from '../Network/products/ProductService'
 import { Button, Modal } from 'antd';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-function Products({localSituation}) {
+interface Local{
+  localSituation:boolean
+}
+function Products({localSituation}:Local) {
   const [products,setProducts]=useState<ProductsModel[]>([])
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [newProducts,setNewProducts]=useState<ProductsModel>({
     name:"",
-    unitPrice:null,
-    unitsInStock:null
+    unitPrice:undefined,
+    unitsInStock:undefined
 })
-const [updatedproducts,setUpdatedproducts]=useState(
+const [updatedproducts,setUpdatedproducts]=useState<ProductsModel>(
   {
-    id:null,
+    id:undefined,
     name: "",
-    unitPrice: "",
-    unitsInStock: ""
+    unitPrice: undefined,
+    unitsInStock: undefined
   }
 )
 const handleOk = () => {
@@ -61,7 +64,7 @@ const handleCancel = () => {
   const handleSubmit=(e:SyntheticEvent)=>{
     e.preventDefault()
     if(localSituation){
-      if(newProducts.name!="" && newProducts.unitPrice!="" && newProducts.unitsInStock!=""){
+      if(newProducts.name!="" && newProducts.unitPrice!=null && newProducts.unitsInStock!=null){
         const productsdata= new ProductsService() 
         productsdata.add(newProducts,"/products")
         .then(()=>{
