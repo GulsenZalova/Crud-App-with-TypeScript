@@ -4,7 +4,7 @@ import { CatagoriesService } from '../Network/catagories/CatagoriesService'
 import { Button, Modal } from 'antd';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-function Catagories() {
+function Catagories({localSituation}) {
   const [catagories,setCatacories]=useState<CatagoriesModel[]>([])
   const [newCatagories,setNewCatagories]=useState({
     name:"",
@@ -27,18 +27,17 @@ const [updatedcategories,setupdatedCategories]=useState(
        [name]:value
     }
     )
-    // console.log(newProducts)
 }
   useEffect(()=>{
     let catagoriesdata=new CatagoriesService()
     catagoriesdata.getAll()
     .then(res=>{
       setCatacories(res.data)
-      // console.log(catagories)
     })
   },[])
   const handleOk = () => {
-    setIsModalOpen(false);
+    if(localSituation){
+      setIsModalOpen(false);
     let catagoriesdata=new CatagoriesService()
     catagoriesdata.update(updatedcategories, `/categories/${updatedcategories.id}`)
     .then(()=>{
@@ -48,31 +47,37 @@ const [updatedcategories,setupdatedCategories]=useState(
       })
       toast("İnformation has been updated!")
     })
-  
-      // console.log(updatedsuppliers)
+    }else{
+      alert("please register!!!")
+    }
   };
   const handleSubmit=(e:SyntheticEvent)=>{
     e.preventDefault()
-   if(newCatagories.name!="" && newCatagories.description!=""){
-    let catagoriesdata=new CatagoriesService()
-    catagoriesdata.add(newCatagories,"/categories")
-    .then(()=>{
-      catagoriesdata.getAll()
-      .then(res => {
-        setCatacories(res.data)
+   if(localSituation){
+    if(newCatagories.name!="" && newCatagories.description!=""){
+      let catagoriesdata=new CatagoriesService()
+      catagoriesdata.add(newCatagories,"/categories")
+      .then(()=>{
+        catagoriesdata.getAll()
+        .then(res => {
+          setCatacories(res.data)
+        })
+        toast("İnformation added!")
       })
-      toast("İnformation added!")
-    })
-      console.log(catagories)
+     }else{
+      alert("Fill in the information completely")
+     }
    }else{
-    alert("Fill in the information completely")
+    alert("please register!!!")
    }
    
   }
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  
   const handleDelete=(id:number)=>{
+  if(localSituation){
     let catagoriesdata=new CatagoriesService()
     catagoriesdata.delete(`/categories/${id}`)
     .then(()=>{
@@ -82,7 +87,9 @@ const [updatedcategories,setupdatedCategories]=useState(
       })
       toast("İnformation deleted!")
     })
-    // console.log(id)
+  }else{
+    alert("please register!!!")
+  }
   }
 
   const handleUpdate = (item: SyntheticEvent) => {
@@ -92,20 +99,16 @@ const [updatedcategories,setupdatedCategories]=useState(
       name: item.name,
       description: item.description,
       })
-      console.log(item)
   }
   const handleUpdated=(e:any)=>{
     const name = e.target.name
     const value = e.target.value
-    // console.log(e.target.name)
-    // console.log(e.target.value)
     setupdatedCategories(
       {
         ...updatedcategories,
         [name]: value
       }
     )
-    // console.log(updatedsuppliers)
   }
   return (
     <div className='crudContainer'>
@@ -140,7 +143,7 @@ const [updatedcategories,setupdatedCategories]=useState(
                         <td>{x.name}</td>
                         <td>{x.description}</td>
                         <td><button className='deletebtn' onClick={()=>handleDelete(x.id)}>Delete</button></td>
-                        <td><button className='updatebtn' onClick={()=> handleUpdate(x) }>Open Modal</button></td>
+                        <td><button className='updatebtn' onClick={()=> handleUpdate(x) }>Update</button></td>
                        </tr> 
                     ))
                 )

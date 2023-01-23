@@ -112,3 +112,12 @@ input{
   font-size: 20px;
   color: midnightblue;
 }
+li{
+  list-style-type: none;
+}
+.login-logout{
+  padding: 10px 40px;
+  background-color: transparent;
+  color: white;
+  font-size: 15px;
+}

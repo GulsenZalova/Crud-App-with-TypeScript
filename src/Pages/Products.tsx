@@ -4,7 +4,7 @@ import { ProductsService } from '../Network/products/ProductService'
 import { Button, Modal } from 'antd';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-function Products() {
+function Products({localSituation}) {
   const [products,setProducts]=useState<ProductsModel[]>([])
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newProducts,setNewProducts]=useState({
@@ -21,18 +21,20 @@ const [updatedproducts,setUpdatedproducts]=useState(
   }
 )
 const handleOk = () => {
-  setIsModalOpen(false);
-  const productsdata= new ProductsService() 
-  productsdata.update(updatedproducts, `/products/${updatedproducts.id}`)
-  .then(()=>{
-    productsdata.getAll()
-    .then(res => {
-      setProducts(res.data)
+  if(localSituation){
+    setIsModalOpen(false);
+    const productsdata= new ProductsService() 
+    productsdata.update(updatedproducts, `/products/${updatedproducts.id}`)
+    .then(()=>{
+      productsdata.getAll()
+      .then(res => {
+        setProducts(res.data)
+      })
+      toast("İnformation has been updated!")
     })
-    toast("İnformation has been updated!")
-  })
-
-    // console.log(updatedsuppliers)
+  }else{
+    alert("please register!!!")
+  }
 };
 
   const handleChange=(e:SyntheticEvent)=>{
@@ -44,7 +46,6 @@ const handleOk = () => {
        [name]:value
     }
     )
-    // console.log(newProducts)
 }
 const handleCancel = () => {
   setIsModalOpen(false);
@@ -54,39 +55,44 @@ const handleCancel = () => {
     productsdata.getAll()
     .then(res=>{
       setProducts(res.data)
-      // console.log(res.data)
     })
   },[])
 
   const handleSubmit=(e:SyntheticEvent)=>{
     e.preventDefault()
-    if(newProducts.name!="" && newProducts.unitPrice!="" && newProducts.unitsInStock1!=""){
-      const productsdata= new ProductsService() 
-      productsdata.add(newProducts,"/products")
+    if(localSituation){
+      if(newProducts.name!="" && newProducts.unitPrice!="" && newProducts.unitsInStock!=""){
+        const productsdata= new ProductsService() 
+        productsdata.add(newProducts,"/products")
+        .then(()=>{
+          productsdata.getAll()
+          .then(res => {
+            setProducts(res.data)
+          })
+          toast("İnformation added!")
+        })
+      }else{
+        alert("Fill in the information completely")
+      }
+    }else{
+      alert("please register!!!")
+    }
+  }
+  const handleDelete=(id:number)=>{
+    if(localSituation){
+      const productsdata= new ProductsService()
+      productsdata.delete(`/products/${id}`)
       .then(()=>{
         productsdata.getAll()
         .then(res => {
           setProducts(res.data)
         })
-        toast("İnformation added!")
+        toast("İnformation deleted!")
       })
     }else{
-      alert("Fill in the information completely")
+      alert("please register!!!")
     }
- 
-      console.log(newProducts)
-  }
-  const handleDelete=(id:number)=>{
-    const productsdata= new ProductsService()
-    productsdata.delete(`/products/${id}`)
-    .then(()=>{
-      productsdata.getAll()
-      .then(res => {
-        setProducts(res.data)
-      })
-      toast("İnformation deleted!")
-    })
-    // console.log(id)
+
   }
   const handleUpdate = (item: SyntheticEvent) => {
     setIsModalOpen(true);
@@ -96,20 +102,16 @@ const handleCancel = () => {
       unitPrice: item.unitPrice,
       unitsInStock: item.unitsInStock
       })
-      console.log(item)
   }
   const handleUpdated=(e:any)=>{
     const name = e.target.name
     const value = e.target.value
-    // console.log(e.target.name)
-    // console.log(e.target.value)
     setUpdatedproducts(
       {
         ...updatedproducts,
         [name]: value
       }
     )
-    // console.log(updatedsuppliers)
   }
   return (
     <div className='crudContainer'>
@@ -150,7 +152,7 @@ const handleCancel = () => {
                         <td>{x.unitPrice}</td>
                         <td>{x.unitsInStock}</td>
                         <td><button  className='deletebtn' onClick={()=>handleDelete(x.id)}>Delete</button></td>
-                        <td><button   className='updatebtn' onClick={()=> handleUpdate(x)}>Open Modal</button></td>
+                        <td><button   className='updatebtn' onClick={()=> handleUpdate(x)}>Update</button></td>
                        </tr> 
                     ))
                 )

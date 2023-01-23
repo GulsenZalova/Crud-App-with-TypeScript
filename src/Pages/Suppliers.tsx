@@ -4,7 +4,7 @@ import { SuppliersService } from '../Network/suppliers/SuppliresService'
 import { Button, Modal } from 'antd';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-function Suppliers() {
+function Suppliers({localSituation}) {
   const [suppliers, setSuppliers] = useState<SuppliersModel[]>([])
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updatedsuppliers,setUpdatedSuppliers]=useState(
@@ -25,28 +25,24 @@ function Suppliers() {
     suppliersdata.getAll()
       .then(res => {
         setSuppliers(res.data)
-        // console.log(suppliers)
       })
   }, [])
 
-
-  // const showModal = () => {
-  //   setIsModalOpen(true);
-  // };
-
   const handleOk = () => {
-    setIsModalOpen(false);
-    const suppliersdata = new SuppliersService()
-    suppliersdata.update(updatedsuppliers, `/suppliers/${updatedsuppliers.id}`)
-    .then(()=>{
-      suppliersdata.getAll()
-      .then(res => {
-        setSuppliers(res.data)
+    if(localSituation){
+      setIsModalOpen(false);
+      const suppliersdata = new SuppliersService()
+      suppliersdata.update(updatedsuppliers, `/suppliers/${updatedsuppliers.id}`)
+      .then(()=>{
+        suppliersdata.getAll()
+        .then(res => {
+          setSuppliers(res.data)
+        })
+        toast("İnformation has been updated!")
       })
-      toast("İnformation has been updated!")
-    })
-  
-      console.log(updatedsuppliers)
+    }else{
+      alert("please register!!!")
+    }
   };
 
   const handleCancel = () => {
@@ -62,13 +58,13 @@ function Suppliers() {
       [name]: value
     }
     )
-    // console.log(newSuppliers)
   }
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault()
     if(newSuppliers.companyName!="" && newSuppliers.contactName!="" && newSuppliers.contactTitle!=""){
-      const suppliersdata = new SuppliersService()
+      if(localSituation){
+        const suppliersdata = new SuppliersService()
     suppliersdata.add(newSuppliers, "/suppliers")
     .then(()=>{
       suppliersdata.getAll()
@@ -77,13 +73,17 @@ function Suppliers() {
       })
       toast("İnformation added!")
     })
+      }else{
+        alert("please register!!!")
+      }
     }else{
       alert("Fill in the information completely")
     }
   }
 
   const handleDelete = (id: number) => {
-    const suppliersdata = new SuppliersService()
+    if(localSituation){
+      const suppliersdata = new SuppliersService()
     suppliersdata.delete(`/suppliers/${id}`)
     .then(()=>{
       suppliersdata.getAll()
@@ -92,7 +92,9 @@ function Suppliers() {
       })
       toast("İnformation deleted!")
     })
-    // console.log(id)
+    }else{
+      alert("please register!!!")
+    }
   }
 
   const handleUpdate = (item: SyntheticEvent) => {
@@ -103,20 +105,16 @@ function Suppliers() {
       contactName: item.contactName,
       contactTitle: item.contactName
       })
-      console.log(item)
   }
   const handleUpdated=(e:any)=>{
     const name = e.target.name
     const value = e.target.value
-    // console.log(e.target.name)
-    // console.log(e.target.value)
     setUpdatedSuppliers(
       {
         ...updatedsuppliers,
         [name]: value
       }
     )
-    // console.log(updatedsuppliers)
   }
 
   return (
@@ -158,7 +156,7 @@ function Suppliers() {
                   <td>{x.contactName}</td>
                   <td>{x.contactTitle}</td>
                   <td><button className='deletebtn' onClick={() => handleDelete(x.id)}>Delete</button></td>
-                  <td><button className='updatebtn' onClick={()=> handleUpdate(x) }>Open Modal</button></td>
+                  <td><button className='updatebtn' onClick={()=> handleUpdate(x) }>Update</button></td>
                 </tr>
               ))
             )
